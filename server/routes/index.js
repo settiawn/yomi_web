@@ -12,6 +12,7 @@ router.get("/", (req, res) => {
 //register & login
 router.post("/register", UserController.register);
 router.post("/login", UserController.login);
+router.post("/google-login", UserController.googleLogin);
 
 //auth
 //narik dari axios
