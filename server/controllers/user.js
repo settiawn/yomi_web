@@ -1,6 +1,6 @@
 const { comparePassword } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
-const { User } = require("../models/index");
+const { User, Profile } = require("../models/index");
 
 module.exports = class UserController {
   static async register(req, res, next) {
@@ -23,6 +23,10 @@ module.exports = class UserController {
 
       const comparePass = comparePassword(password, user.password);
       if (!comparePass) throw { name: "InvalidUser" };
+
+      //auto make profile when first time login
+      const profile = await Profile.findOne({ where: { userId: user.id } });
+      if(!profile) await Profile.create({userId: user.id})
 
       const access_token = signToken({ id: user.id });
       res.status(200).json({ access_token });

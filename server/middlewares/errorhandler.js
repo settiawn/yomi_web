@@ -14,6 +14,24 @@ const errorHandler = (err, req, res, next) => {
     case "InvalidUser":
       res.status(401).json({ message: "Wrong Email/Password" });
       break;
+    case "ProfileNotFound":
+      res.status(404).json({ message: "Profile Not Found" });
+      break;
+    case "ListNotFound":
+      res.status(404).json({ message: "Entry Not Found" });
+      break;
+    case "InvalidToken":
+    case "JsonWebTokenError":
+      res.status(401).json({ message: "Invalid Token. Please log in first" });
+      break;
+    case "Forbidden":
+      res.status(403).json({ message: "Forbidden Access" });
+      break;
+    case "AxiosError":
+    case "MangaNotFound":
+      res.status(404).json({message: "Title not found in database"})
+      break;
+
     default:
       res.status(500).json({ message: "Internal Server Error" });
       break;
