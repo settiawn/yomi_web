@@ -11,6 +11,9 @@ const errorHandler = (err, req, res, next) => {
     case "PasswordRequired":
       res.status(400).json({ message: "Please input your password" });
       break;
+    case "EntryDuplicate":
+      res.status(400).json({ message: "Title already in your list" });
+      break;
     case "InvalidUser":
       res.status(401).json({ message: "Wrong Email/Password" });
       break;
@@ -22,7 +25,7 @@ const errorHandler = (err, req, res, next) => {
       break;
     case "InvalidToken":
     case "JsonWebTokenError":
-      res.status(401).json({ message: "Invalid Token. Please log in first" });
+      res.status(401).json({ message: "Invalid Token, Please log in first" });
       break;
     case "Forbidden":
       res.status(403).json({ message: "Forbidden Access" });
@@ -30,6 +33,12 @@ const errorHandler = (err, req, res, next) => {
     case "AxiosError":
     case "MangaNotFound":
       res.status(404).json({message: "Title not found in database"})
+      break;
+    case "UpgradeRequired":
+      res.status(403).json({message: "Be a supporter of this project to add more entry to your list"})
+      break;
+    case "MaximumReached":
+      res.status(400).json({message: "You have reached the maximum entry available, Please manage your list"})
       break;
 
     default:

@@ -2,18 +2,15 @@ const { User, Profile, List } = require("../models/index");
 const axios = require('axios').default;
 
 module.exports = class Controller {
-  // static async index(req, res, next) {
-  //   try {
-  //     res.send("OK");
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
 
   static async showProfile(req, res, next) {
     try {
       const { id } = req.params;
-      const profile = await Profile.findByPk(id); //TODO : ini nanti di eager loading sama list yang udah dipunya
+      const profile = await Profile.findByPk(id, {
+        include: [{
+          model: List
+        }],
+      }); 
       if (!profile) throw { name: "ProfileNotFound" };
       res.json(profile);
     } catch (error) {
@@ -31,7 +28,7 @@ module.exports = class Controller {
         { where: { id } }
       );
 
-      res.json({message: "Profile has been updated."})
+      res.json({message: "Profile has been updated"})
     } catch (error) {
       next(error);
     }
@@ -47,15 +44,14 @@ module.exports = class Controller {
 
       const {data} = response.data
       if(!data) throw {name: "MangaNotFound"}
-      console.log(data.id);
-      console.log(data.relationships[2].id);
-      console.log(req.profile.id);
+      // console.log(data.id);
+      // console.log(data.relationships[2].id);
+      // console.log(req.profile.id);
 
       await List.create({profileId: req.profile.id, mangaId: data.id, coverId: data.relationships[2].id}) 
       //manga id dari axios, cover id dari axios, profileId dari req.profile
-
-      //TODO : eager loading disini sebelum add untuk mencegah duplicate
-      res.status(201).json(`Added "${data.attributes.title.en}" to your manga list.`);
+      
+      res.status(201).json({message: `Added "${data.attributes.title.en}" to your list`});
     } catch (error) {
       next(error);
     }
@@ -66,7 +62,7 @@ module.exports = class Controller {
       const {comments, rating} = req.body
       await List.update({comments, rating}, {where: {id: listId}})
 
-      res.json({message: "Entry has been updated."})
+      res.json({message: "Entry has been updated"})
     } catch (error) {
       next(error);
     }
@@ -76,7 +72,7 @@ module.exports = class Controller {
       const {listId} = req.params
       await List.destroy({where: {id: listId}})
       
-      res.json({message: "Entry has been deleted."})
+      res.json({message: "Entry has been deleted"})
     } catch (error) {
       next(error);
     }
