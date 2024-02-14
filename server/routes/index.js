@@ -20,6 +20,7 @@ router.get("/profile/:id", Controller.showProfile);
 
 //auth
 router.use(authentication)
+router.get("/verify/", UserController.verify)
 // Initiate Order ke midtrans
 router.get('/payment/midtrans/initiate', PaymentController.initiate)
 // endpoint upgrade account

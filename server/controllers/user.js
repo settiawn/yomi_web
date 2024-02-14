@@ -1,5 +1,5 @@
 const { comparePassword } = require("../helpers/bcrypt");
-const { signToken } = require("../helpers/jwt");
+const { signToken, verifyToken } = require("../helpers/jwt");
 const { User, Profile } = require("../models/index");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client();
@@ -64,6 +64,17 @@ module.exports = class UserController {
       res.status(200).json({ access_token });
     } catch (error) {
       next(error);
+    }
+  }
+
+  static async verify(req, res, next){
+    try {
+      const {token} = req.headers
+      const {id} = verifyToken(token);
+      if(id !== req.user.id) throw {name: "Forbidden"}
+      res.json({message: "OK", userId: req.user.id, profileId: req.profile.id})
+    } catch (error) {
+      next(error)
     }
   }
 };

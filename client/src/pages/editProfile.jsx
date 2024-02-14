@@ -1,3 +1,3 @@
 export function EditProfile(){
-    return <div>EditProfile</div>
+    return (<div>EditProfile</div>)
 }

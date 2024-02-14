@@ -78,16 +78,18 @@ module.exports = class Controller {
 
       const { data } = response.data;
       if (!data) throw { name: "MangaNotFound" };
-      // console.log(data.id);
-      // console.log(data.relationships[2].id);
-      // console.log(req.profile.id);
+      
+      const {id} = data.relationships.find((z) => z.type === "cover_art")
+      const responseCover = await axios({
+        method: "get",
+        url: "https://api.mangadex.org/cover/" + id,
+      });
 
       await List.create({
         profileId: req.profile.id,
         mangaId: data.id,
-        coverId: data.relationships[2].id,
+        coverId: responseCover.data.data.attributes.fileName,
       });
-      //manga id dari axios, cover id dari axios, profileId dari req.profile
 
       res
         .status(201)

@@ -64,17 +64,14 @@ export function Home() {
 
   async function fetchManga(title) {
     try {
-      console.log(title);
-      setManga([])
-      let params = {}
-      if(title) params.title = title
-
-
+      setManga([]);
+      let params = {};
+      if (title) params.title = title;
 
       const { data } = await axios({
         method: "get",
         url: "https://api.mangadex.org/manga",
-        params
+        params,
       });
       setMeta({
         limit: data.limit,
@@ -106,26 +103,27 @@ export function Home() {
             onChange={inputHandler}
             className="ml-auto mr-auto p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
-          <button 
-          className="ml-2 bg-blue-500 text-white font-bold px-3 py-2 rounded-lg"
-          onClick={(event) => {
-            event.preventDefault()
-            fetchManga(input.title);
-          }}
+          <button
+            className="ml-2 bg-blue-500 text-white font-bold px-3 py-2 rounded-lg"
+            onClick={(event) => {
+              event.preventDefault();
+              fetchManga(input.title);
+            }}
           >
             Search
           </button>
         </form>
         <div className="grid gap-4 grid-cols-5 grid-rows-4">
-        {manga.map((x) => {
-          return (
-            < Card 
-            id={x.id}
-            name={x.attributes.title.en}
-            cover={x.relationships[2].id}
-            />
-          )
-        })}
+          {manga.map((x) => {
+            let img = x.relationships.find((z) => z.type === "cover_art")
+            return (
+              <Card
+                id={x.id}
+                name={x.attributes.title.en}
+                cover={img}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

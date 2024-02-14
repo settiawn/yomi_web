@@ -16,7 +16,7 @@ export function Card(params) {
     try {
       const { data } = await axios({
         method: "get",
-        url: "https://api.mangadex.org/cover/" + cover,
+        url: "https://api.mangadex.org/cover/" + cover.id,
       });
 
       let img = `https://uploads.mangadex.org/covers/${id}/${data.data.attributes.fileName}`;
