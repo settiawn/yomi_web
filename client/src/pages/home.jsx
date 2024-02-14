@@ -53,11 +53,28 @@ export function Home() {
     fetchManga();
   }, []);
 
-  async function fetchManga() {
+  const [input, setInput] = useState({
+    title: "",
+  });
+
+  function inputHandler(event) {
+    const { name, value } = event.target;
+    setInput({ ...input, [name]: value });
+  }
+
+  async function fetchManga(title) {
     try {
+      console.log(title);
+      setManga([])
+      let params = {}
+      if(title) params.title = title
+
+
+
       const { data } = await axios({
         method: "get",
         url: "https://api.mangadex.org/manga",
+        params
       });
       setMeta({
         limit: data.limit,
@@ -68,6 +85,8 @@ export function Home() {
       console.log(error);
     }
   }
+
+  console.log(input);
 
   return (
     <div className="min-h-screen  bg-dark">
@@ -84,9 +103,18 @@ export function Home() {
         <form action="">
           <input
             type="text"
+            name="title"
+            placeholder="title.."
+            onChange={inputHandler}
             className="ml-auto mr-auto p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
-          <button className="ml-2 bg-blue-500 text-white font-bold px-3 py-2 rounded-lg">
+          <button 
+          className="ml-2 bg-blue-500 text-white font-bold px-3 py-2 rounded-lg"
+          onClick={(event) => {
+            event.preventDefault()
+            fetchManga(input.title);
+          }}
+          >
             Search
           </button>
         </form>
