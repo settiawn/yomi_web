@@ -30,6 +30,7 @@ router.put("/profile/:id", editProfile, Controller.editProfile);
 //add to the list by the manga id => axios by manga id to get the coverId as well (validasi dari api mangadex ada atau gak)
 router.post("/index/:mangaId", checkDuplicateAndStatus, Controller.addList);
 //edit the list (comment+rating)
+router.get("/mylist/:listId", editEntry, Controller.getList);
 router.put("/mylist/:listId", editEntry, Controller.editList);
 //delete the list
 router.delete("/mylist/:listId", editEntry, Controller.deleteList);

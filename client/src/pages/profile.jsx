@@ -19,6 +19,8 @@ export function Profile() {
   //TODO => profile headers (pic, name) bikin responsive
   //TODO => bikin fungsi ini di reducer buat ke tombol edit entry + delete
   //TODO => fix screen di home.jsx
+  //TODO => redux di delete biar auto refresh, redux di cards buat enable/disable edit/delete nya (tinggal kayak profile)
+  //TODO => make global navbar, with upgrade, logout, links. (all front done until this)
   async function isUser(){
     try {
       const {data} = await axios({

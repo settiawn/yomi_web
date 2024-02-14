@@ -1,3 +1,103 @@
-export function EditList(){
-    return <div>EditList</div>
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+export function EditList() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [input, setInput] = useState({});
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  function inputHandler(event) {
+    const { name, value } = event.target;
+    setInput({ ...input, [name]: value });
+  }
+
+  async function sendData() {
+    try {
+      await axios({
+        method: "put",
+        url: "http://localhost:3000/mylist/" + id,
+        data: input,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+      });
+    }
+  }
+
+  async function fetchData() {
+    try {
+      const { data } = await axios({
+        method: "get",
+        url: "http://localhost:3000/mylist/" + id,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      });
+      setInput({ comments: data.comments, rating: data.rating });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  console.log(input);
+
+  return (
+    <div className="min-h-screen bg-dark">
+      <div className="container mx-auto text-white pt-10 text-center">
+        <div className="font-bold text-4xl m-7">Edit Entry</div>
+        <div className="flex flex-col text-white font-bold text-1xl mt-3 text-center">
+          <label htmlFor="" className="mb-1">
+            Rating
+          </label>
+          <select
+          name="rating" 
+          onChange={inputHandler}
+          className="mx-auto text-center appearance-none bg-gray-100 border border-gray-200 text-gray-700 py-2 px-2 pr-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+            <option value="" selected disabled>--Select--</option>
+            <option value="1">1 - Appalling</option>
+            <option value="2">2 - Horrible</option>
+            <option value="3">2 - Very Bad</option>
+            <option value="4">4 - Bad</option>
+            <option value="5">5 - Average</option>
+            <option value="6">6 - Fine</option>
+            <option value="7">7 - Good</option>
+            <option value="8">8 - Very Good</option>
+            <option value="9">9 - Great</option>
+            <option value="10">10 - Masterpiece</option>
+          </select>
+          <label htmlFor="" className="mt-5 mb-1">
+            Bio
+          </label>
+          <textarea
+            name="comments"
+            id=""
+            cols="30"
+            rows="10"
+            onChange={inputHandler}
+            value={input ? input.bio : ""}
+            className="ml-auto mr-auto p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-black font-normal"
+          ></textarea>
+          <button
+            className="ml-auto mr-auto bg-blue-500 text-white font-bold px-4 py-2 rounded-lg m-5"
+            onClick={sendData}
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }

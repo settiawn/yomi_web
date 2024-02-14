@@ -6,6 +6,14 @@ import { Profile } from "./pages/profile";
 import { EditProfile } from "./pages/editProfile";
 import { EditList } from "./pages/editList";
 
+const authLogin = () => {
+  if (!localStorage.getItem("access_token")) {
+    return redirect("/login");
+  }
+  return null;
+}
+
+
 const router = createBrowserRouter([
   {
     element: < Register />,
@@ -18,12 +26,7 @@ const router = createBrowserRouter([
   {
     element: < Home />,
     path: "/",
-    loader: () => {
-      if (!localStorage.getItem("access_token")) {
-        return redirect("/login");
-      }
-      return null;
-    }
+    loader: authLogin
   },
   {
     element: < Profile />,
@@ -32,10 +35,12 @@ const router = createBrowserRouter([
   {
     element: < EditProfile />,
     path: "/profile/edit/:id",
+    loader: authLogin
   },
   {
     element: < EditList />,
-    path: "/mylist/edit/:id",
+    path: "/list/edit/:id",
+    loader: authLogin
   },
 ]);
 

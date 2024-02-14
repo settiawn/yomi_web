@@ -99,6 +99,16 @@ module.exports = class Controller {
     }
   }
 
+  static async getList(req, res, next) {
+    try {
+      const {listId} = req.params
+      const data = await List.findByPk(listId)
+      res.json(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   static async editList(req, res, next) {
     try {
       const { listId } = req.params;
