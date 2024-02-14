@@ -23,6 +23,18 @@ const errorHandler = (err, req, res, next) => {
     case "ListNotFound":
       res.status(404).json({ message: "Entry Not Found" });
       break;
+    case "OrderNotFound":
+      res.status(404).json({ message: "Order Not Found" });
+      break;
+    case "AlreadySupporter":
+      res.status(400).json({ message: "You are already supporter" });
+      break;
+    case "AlreadyPaid":
+      res.status(400).json({ message: "Order already paid" });
+      break;
+    case "MidtransError":
+      res.status(400).json({ message: "pgrade Failed, please call our customer support" });
+      break;
     case "InvalidToken":
     case "JsonWebTokenError":
       res.status(401).json({ message: "Invalid Token, Please log in first" });

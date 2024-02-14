@@ -1,10 +1,40 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from 'sweetalert2'
 
 export function Login() {
   const navigate = useNavigate();
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+  });
 
+  function inputHandler(event) {
+    const { name, value } = event.target;
+    setInput({ ...input, [name]: value });
+  }
+
+  async function login(event) {
+    try {
+      event.preventDefault();
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:3000/login",
+        data: input,
+      });
+      localStorage.setItem("access_token", response.data.access_token);
+      navigate("/");
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+      });
+    }
+  }
+
+  //for google login
   const handleCredentialResponse = async (response) => {
     try {
       const { data } = await axios({
@@ -43,6 +73,7 @@ export function Login() {
         <input
           type="email"
           name="email"
+          onChange={inputHandler}
           className="ml-auto mr-auto p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
         <label htmlFor="" className="text-white font-bold text-1xl mt-3">
@@ -51,9 +82,13 @@ export function Login() {
         <input
           type="password"
           name="password"
+          onChange={inputHandler}
           className="ml-auto mr-auto p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
-        <button className="ml-auto mr-auto bg-blue-500 text-white font-bold px-4 py-2 rounded-lg m-5">
+        <button 
+        className="ml-auto mr-auto bg-blue-500 text-white font-bold px-4 py-2 rounded-lg m-5"
+        onClick={login}
+        >
           Login
         </button>
         <p className="text-white m-3 pt-9">Don't have an account yet?</p>
