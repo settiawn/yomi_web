@@ -86,8 +86,6 @@ export function Home() {
     }
   }
 
-  console.log(input);
-
   return (
     <div className="min-h-screen  bg-dark">
       <div className="container text-center mx-auto">
