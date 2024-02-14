@@ -101,23 +101,3 @@ export function Login() {
     </div>
   );
 }
-
-{
-  /* <div className="text-center container mx-auto m-5">
-          <div className="flex flex-col">
-            <h1 className="font-bold text-black text-6xl">Hello world!</h1>
-            <form action="">
-              <div class=" text-gray-700 font-bold mb-2 flex flex-col">
-                <label htmlFor="">Email</label>
-                <input
-                  type="text"
-                  className="order border-gray-400 rounded-lg py-2 px-4 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
-                />
-              </div>
-              <div class="bg-gray-200 p-6 m-2">
-                <label htmlFor="">Password</label>
-              </div>
-            </form>
-          </div>
-        </div> */
-}

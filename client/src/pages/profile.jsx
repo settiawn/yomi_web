@@ -18,6 +18,7 @@ export function Profile() {
 
   //TODO => profile headers (pic, name) bikin responsive
   //TODO => bikin fungsi ini di reducer buat ke tombol edit entry + delete
+  //TODO => fix screen di home.jsx
   async function isUser(){
     try {
       const {data} = await axios({
