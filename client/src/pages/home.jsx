@@ -1,5 +1,7 @@
 import axios from "axios";
 import { serverAPI } from "../api";
+import { Card } from "../components/card";
+import { useEffect, useState } from "react";
 
 export function Home() {
   const upgrade = async () => {
@@ -43,8 +45,32 @@ export function Home() {
       },
     });
   };
+
+  const [manga, setManga] = useState([]);
+  const [meta, setMeta] = useState({});
+
+  useEffect(() => {
+    fetchManga();
+  }, []);
+
+  async function fetchManga() {
+    try {
+      const { data } = await axios({
+        method: "get",
+        url: "https://api.mangadex.org/manga",
+      });
+      setMeta({
+        limit: data.limit,
+        offset: data.offset,
+      });
+      setManga(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <div className="h-screen  bg-dark">
+    <div className="min-h-screen  bg-dark">
       <div className="container text-center mx-auto">
         <h1 className="pt-5 font-bold text-4xl text-white">Home</h1>
         <button
@@ -53,6 +79,28 @@ export function Home() {
         >
           Upgrade
         </button>
+      </div>
+      <div className="container text-center mx-auto">
+        <form action="">
+          <input
+            type="text"
+            className="ml-auto mr-auto p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <button className="ml-2 bg-blue-500 text-white font-bold px-3 py-2 rounded-lg">
+            Search
+          </button>
+        </form>
+        <div className="grid gap-4 grid-cols-5 grid-rows-4">
+        {manga.map((x) => {
+          return (
+            < Card 
+            id={x.id}
+            name={x.attributes.title.en}
+            cover={x.relationships[2].id}
+            />
+          )
+        })}
+        </div>
       </div>
     </div>
   );
