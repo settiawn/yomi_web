@@ -26,10 +26,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       comments: {
-        type: Sequelize.TEXT('2000')
+        type: Sequelize.TEXT('2000'),
+        defaultValue: "-"
       },
       rating: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 5
       },
       createdAt: {
         allowNull: false,

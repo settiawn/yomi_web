@@ -5,6 +5,7 @@ import { Home } from "./pages/home";
 import { Profile } from "./pages/profile";
 import { EditProfile } from "./pages/editProfile";
 import { EditList } from "./pages/editList";
+import { Navbar } from "./components/navbar";
 
 const authLogin = () => {
   if (!localStorage.getItem("access_token")) {
@@ -24,24 +25,30 @@ const router = createBrowserRouter([
     path: "/login",
   },
   {
-    element: < Home />,
-    path: "/",
-    loader: authLogin
+    element: < Navbar />,
+    children: [
+      {
+        element: < Profile />,
+        path: "/profile/:id",
+      },
+      {
+        element: < Home />,
+        path: "/",
+        loader: authLogin
+      },
+      {
+        element: < EditProfile />,
+        path: "/profile/edit/:id",
+        loader: authLogin
+      },
+      {
+        element: < EditList />,
+        path: "/list/edit/:id",
+        loader: authLogin
+      },
+    ]
   },
-  {
-    element: < Profile />,
-    path: "/profile/:id",
-  },
-  {
-    element: < EditProfile />,
-    path: "/profile/edit/:id",
-    loader: authLogin
-  },
-  {
-    element: < EditList />,
-    path: "/list/edit/:id",
-    loader: authLogin
-  },
+ 
 ]);
 
 export default router;

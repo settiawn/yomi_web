@@ -34,8 +34,6 @@ const editEntry = async (req, res, next) => {
 
 const checkDuplicateAndStatus = async (req, res, next) => {
   const { mangaId } = req.params;
-  console.log(req.profile.id);
-  console.log(req.profile.status);
 
   try {
     const duplicateEntry = await List.findAll({
@@ -49,10 +47,10 @@ const checkDuplicateAndStatus = async (req, res, next) => {
     console.log(ListCounter);
     switch (req.profile.status) {
       case "normal":
-        if (ListCounter > 5) throw { name: "UpgradeRequired" };
+        if (ListCounter >= 5) throw { name: "UpgradeRequired" };
         break;
       case "supporter":
-        if (ListCounter > 10) throw { name: "MaximumReached" };
+        if (ListCounter >= 10) throw { name: "MaximumReached" };
         break;
     }
 

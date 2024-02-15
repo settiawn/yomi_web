@@ -46,6 +46,7 @@ export function Home() {
     });
   };
 
+  //TODO if else kalo udah supporter ganti tulisan
   const [manga, setManga] = useState([]);
   const [meta, setMeta] = useState({});
 
@@ -86,12 +87,12 @@ export function Home() {
   return (
     <div className="min-h-screen  bg-dark">
       <div className="container text-center mx-auto">
-        <h1 className="pt-5 font-bold text-4xl text-white">Home</h1>
+        <h1 className="pt-5 font-bold text-4xl text-white">Add your favorite manga</h1>
         <button
-          className="text-white border-spacing-4 bg-blue-500 font-bold px-4 py-2 rounded-lg m-5 hover:cursor-pointer"
+          className="text-white border-spacing-4  font-bold px-4 py-2 bg-amber-600 m-5 hover:cursor-pointer"
           onClick={upgrade}
         >
-          Upgrade
+          Click here to support this project to get full benefit of this application
         </button>
       </div>
       <div className="container text-center mx-auto">
@@ -113,7 +114,7 @@ export function Home() {
             Search
           </button>
         </form>
-        <div className="grid gap-4 grid-cols-5 grid-rows-4">
+        <div className="grid gap-4 grid-cols-5 grid-rows-2 p-8">
           {manga.map((x) => {
             let img = x.relationships.find((z) => z.type === "cover_art")
             return (

@@ -54,7 +54,7 @@ export function Card(params) {
   //   max-w-sm
   return (
     <div class="rounded overflow-hidden shadow-lg mt-8 bg-white relative px-0 p-0">
-      <div class="font-bold text-xl absolute top-0 w-full bg-sky-500 p-3">
+      <div class="font-bold text-xl absolute top-0 w-full bg-sky-500 p-3 bg-opacity-75 text-black text-opacity-75">
         {name}
       </div>
       <div className="flex items-center">
@@ -62,16 +62,16 @@ export function Card(params) {
           <img src={image} alt="cover_art" className="" />
         </div>
       </div>
-      <div className="flex justify-between absolute bottom-0 w-full">
+      <div className="flex justify-between absolute bottom-0 w-full text-white">
         <Link
           to={link}
           target="_blank"
-          className="w-1/2 bg-green-500 font-bold p-3 text-white hover:cursor-pointer"
+          className="w-1/2 bg-green-500 font-bold p-3 hover:cursor-pointer"
         >
           Read
         </Link>
         <div
-          className="w-1/2 bg-yellow-500 font-bold p-3 text-white hover:cursor-pointer"
+          className="w-1/2 bg-yellow-500 font-bold p-3 hover:cursor-pointer"
           onClick={addToList}
         >
           Add

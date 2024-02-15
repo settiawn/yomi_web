@@ -52,7 +52,18 @@ export function EditList() {
     }
   }
 
-  console.log(input);
+  const [rating, setRating] = useState([
+    { rating: 1, label: "Appalling" },
+    { rating: 2, label: "Horrible" },
+    { rating: 3, label: "Very Bad" },
+    { rating: 4, label: "Bad" },
+    { rating: 5, label: "Average" },
+    { rating: 6, label: "Fine" },
+    { rating: 7, label: "Good" },
+    { rating: 8, label: "Very Good" },
+    { rating: 9, label: "Great" },
+    { rating: 10, label: "Masterpiece" },
+  ]);
 
   return (
     <div className="min-h-screen bg-dark">
@@ -63,20 +74,18 @@ export function EditList() {
             Rating
           </label>
           <select
-          name="rating" 
-          onChange={inputHandler}
-          className="mx-auto text-center appearance-none bg-gray-100 border border-gray-200 text-gray-700 py-2 px-2 pr-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-            <option value="" selected disabled>--Select--</option>
-            <option value="1">1 - Appalling</option>
-            <option value="2">2 - Horrible</option>
-            <option value="3">2 - Very Bad</option>
-            <option value="4">4 - Bad</option>
-            <option value="5">5 - Average</option>
-            <option value="6">6 - Fine</option>
-            <option value="7">7 - Good</option>
-            <option value="8">8 - Very Good</option>
-            <option value="9">9 - Great</option>
-            <option value="10">10 - Masterpiece</option>
+            name="rating"
+            onChange={inputHandler}
+            className="mx-auto text-center appearance-none bg-gray-100 border border-gray-200 text-gray-700 py-2 px-2 pr-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          >
+            <option value="" selected disabled>
+              --Select--
+            </option>
+            {rating.map((item) => (
+              <option key={item.rating} value={item.rating} className={item.rating === input.rating ? 'selected' : ''}>
+                {item.rating} - {item.label}
+              </option>
+            ))}
           </select>
           <label htmlFor="" className="mt-5 mb-1">
             Bio
@@ -87,7 +96,7 @@ export function EditList() {
             cols="30"
             rows="10"
             onChange={inputHandler}
-            value={input ? input.bio : ""}
+            value={input ? input.comments : ""}
             className="ml-auto mr-auto p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-black font-normal"
           ></textarea>
           <button
