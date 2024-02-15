@@ -1,32 +1,20 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { fetchUserInfo } from "../store/userSlice";
 
 export function Navbar() {
   const navigate = useNavigate();
-  const [session, setSession] = useState();
+  const dispatch = useDispatch();
+
+  const { meta } = useSelector((x) => x.user);
 
   useEffect(() => {
-    isUser();
+    dispatch(fetchUserInfo());
   }, []);
 
-  async function isUser() {
-    try {
-      const { data } = await axios({
-        method: "get",
-        url: "http://localhost:3000/verify/",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-          token: localStorage.getItem("access_token"),
-        },
-      });
-      setSession({ userId: data.userId, profileId: data.profileId });
-    } catch (error) {
-      console.log(error);
-    }
-  }
   function toMyProfile() {
-    navigate("/profile/" + session.profileId);
+    navigate("/profile/" + meta.profileId);
   }
 
   function toHome() {
@@ -38,8 +26,6 @@ export function Navbar() {
     navigate("/login");
   }
 
-  console.log(session, "Session<<<<");
-
   return (
     <>
       <div className="bg-dark">
@@ -50,7 +36,7 @@ export function Navbar() {
           >
             yomi
           </div>
-          {session !== undefined && (
+          {meta.length !== 0 && (
             <div className="flex flex-row gap-4 text-1xl">
               <p to="" className="hover:cursor-pointer" onClick={toMyProfile}>
                 My Profile

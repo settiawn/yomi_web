@@ -9,6 +9,7 @@ module.exports = class Controller {
         include: [
           {
             model: List,
+            order: [['rating', 'ASC']]
           },
         ],
       });

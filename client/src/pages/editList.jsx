@@ -1,14 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { fetchUserInfo } from "../store/userSlice";
 
 export function EditList() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [input, setInput] = useState({});
 
+  const dispatch = useDispatch();
+  const session = useSelector((x) => x.user.meta);
+
   useEffect(() => {
     fetchData();
+    dispatch(fetchUserInfo());
   }, []);
 
   function inputHandler(event) {
@@ -26,7 +32,7 @@ export function EditList() {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
       });
-      navigate("/");
+      navigate("/profile/" + session.profileId);
     } catch (error) {
       console.log(error);
       Swal.fire({
@@ -78,11 +84,8 @@ export function EditList() {
             onChange={inputHandler}
             className="mx-auto text-center appearance-none bg-gray-100 border border-gray-200 text-gray-700 py-2 px-2 pr-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           >
-            <option value="" selected disabled>
-              --Select--
-            </option>
             {rating.map((item) => (
-              <option key={item.rating} value={item.rating} className={item.rating === input.rating ? 'selected' : ''}>
+              <option key={item.rating} value={item.rating} selected={item.rating === input.rating}>
                 {item.rating} - {item.label}
               </option>
             ))}

@@ -1,12 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
+import { addToList } from "../store/mangaSlice";
 
 export function Card(params) {
   const { id, name, cover } = params;
-  const [image, setImage] = useState("https://corona.s-ul.eu/P2xNVZkN.jpg");
+  const [image, setImage] = useState("");
   const [link, setLink] = useState("");
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getImageLink();
@@ -28,30 +32,6 @@ export function Card(params) {
     }
   }
 
-  async function addToList() {
-    try {
-      const {data} = await axios({
-        method: "post",
-        url: "http://localhost:3000/index/" + id,
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      });
-      Swal.fire({
-        title: "Success",
-        text: data.message,
-        icon: "success"
-      });
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        title: "Oops...",
-        text: error.response.data.message,
-        icon: "error"
-      });
-    }
-  }
-  //   max-w-sm
   return (
     <div class="rounded overflow-hidden shadow-lg mt-8 bg-white relative px-0 p-0">
       <div class="font-bold text-xl absolute top-0 w-full bg-sky-500 p-3 bg-opacity-75 text-black text-opacity-75">
@@ -72,7 +52,9 @@ export function Card(params) {
         </Link>
         <div
           className="w-1/2 bg-yellow-500 font-bold p-3 hover:cursor-pointer"
-          onClick={addToList}
+          onClick={() => {
+            dispatch(addToList(id));
+          }}
         >
           Add
         </div>

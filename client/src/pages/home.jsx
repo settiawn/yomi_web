@@ -2,6 +2,8 @@ import axios from "axios";
 import { serverAPI } from "../api";
 import { Card } from "../components/card";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAll } from "../store/mangaSlice";
 
 export function Home() {
   const upgrade = async () => {
@@ -46,12 +48,16 @@ export function Home() {
     });
   };
 
+  const dispatch = useDispatch();
+  const { userData, userList, meta } = useSelector((x) => x.user);
+  const { data } = useSelector((x) => x.manga);
+
+  console.log();
+
   //TODO if else kalo udah supporter ganti tulisan
-  const [manga, setManga] = useState([]);
-  const [meta, setMeta] = useState({});
 
   useEffect(() => {
-    fetchManga();
+    dispatch(fetchAll());
   }, []);
 
   const [input, setInput] = useState({
@@ -63,37 +69,25 @@ export function Home() {
     setInput({ ...input, [name]: value });
   }
 
-  async function fetchManga(title) {
-    try {
-      setManga([]);
-      let params = {};
-      if (title) params.title = title;
-
-      const { data } = await axios({
-        method: "get",
-        url: "https://api.mangadex.org/manga",
-        params,
-      });
-      setMeta({
-        limit: data.limit,
-        offset: data.offset,
-      });
-      setManga(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   return (
     <div className="min-h-screen  bg-dark">
       <div className="container text-center mx-auto">
-        <h1 className="pt-5 font-bold text-4xl text-white">Add your favorite manga</h1>
-        <button
-          className="text-white border-spacing-4  font-bold px-4 py-2 bg-amber-600 m-5 hover:cursor-pointer"
-          onClick={upgrade}
-        >
-          Click here to support this project to get full benefit of this application
-        </button>
+        <h1 className="pt-5 font-bold text-4xl text-white">
+          Add your favorite manga
+        </h1>
+        {userData.status === "normal" ? (
+          <div
+            className="text-white border-spacing-4  font-bold px-4 py-2 bg-amber-600 m-5 hover:cursor-pointer"
+            onClick={upgrade}
+          >
+            Click here to support this project to get full benefit of this
+            application
+          </div>
+        ) : (
+          <div className="text-white border-spacing-4  font-bold px-4 py-2 bg-amber-600 m-5">
+            Thank you for supporting this project!
+          </div>
+        )}
       </div>
       <div className="container text-center mx-auto">
         <form action="">
@@ -108,22 +102,16 @@ export function Home() {
             className="ml-2 bg-blue-500 text-white font-bold px-3 py-2 rounded-lg"
             onClick={(event) => {
               event.preventDefault();
-              fetchManga(input.title);
+              dispatch(fetchAll(input.title));
             }}
           >
             Search
           </button>
         </form>
         <div className="grid gap-4 grid-cols-5 grid-rows-2 p-8">
-          {manga.map((x) => {
-            let img = x.relationships.find((z) => z.type === "cover_art")
-            return (
-              <Card
-                id={x.id}
-                name={x.attributes.title.en}
-                cover={img}
-              />
-            );
+          {data.map((x) => {
+            let img = x.relationships.find((z) => z.type === "cover_art");
+            return <Card id={x.id} name={x.attributes.title.en} cover={img} />;
           })}
         </div>
       </div>
