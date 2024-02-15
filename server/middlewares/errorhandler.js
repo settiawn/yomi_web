@@ -1,6 +1,6 @@
 const errorHandler = (err, req, res, next) => {
   console.log("Error Name: ", err.name);
-  console.log(err);
+  // console.log(err);
   switch (err.name) {
     case "SequelizeValidationError":
     case "SequelizeUniqueConstraintError":

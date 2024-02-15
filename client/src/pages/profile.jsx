@@ -16,6 +16,11 @@ export function Profile() {
     dispatch(fetchUserInfo());
   }, []);
 
+  useEffect(() => {
+    dispatch(fetchUserProfile(id));
+    dispatch(fetchUserInfo());
+  }, [id]);
+
   function handleEditProfile() {
     navigate("/profile/edit/" + id);
   }

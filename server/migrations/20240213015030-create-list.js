@@ -26,8 +26,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       comments: {
-        type: Sequelize.TEXT('2000'),
-        defaultValue: "-"
+        type: Sequelize.TEXT('2000')
       },
       rating: {
         type: Sequelize.INTEGER,

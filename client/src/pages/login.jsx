@@ -94,7 +94,7 @@ export function Login() {
         <p className="text-white m-3 pt-9">Don't have an account yet?</p>
         <div id="google-button" className="ml-auto mr-auto"></div>
         <p className="text-white m-3">or</p>
-        <Link to="/register" className="font-bold text-blue-500">
+        <Link to="/register" className="font-bold text-sky-500">
           Register
         </Link>
       </div>

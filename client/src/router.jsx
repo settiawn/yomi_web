@@ -14,15 +14,24 @@ const authLogin = () => {
   return null;
 }
 
+const authNotLogin = () => {
+  if (localStorage.getItem("access_token")) {
+    return redirect("/");
+  }
+  return null;
+}
+
 
 const router = createBrowserRouter([
   {
     element: < Register />,
     path: "/register",
+    loader: authNotLogin
   },
   {
     element: < Login />,
     path: "/login",
+    loader: authNotLogin
   },
   {
     element: < Navbar />,

@@ -9,7 +9,7 @@ module.exports = class Controller {
         include: [
           {
             model: List,
-            order: [['rating', 'ASC']]
+            order: [['id', 'DESC']]
           },
         ],
       });
@@ -36,7 +36,6 @@ module.exports = class Controller {
   static async upgrade(req, res, next) {
     try {
       const { orderId } = req.body;
-      console.log(orderId);
       const order = await Order.findOne({ where: { orderId } });
       if (!order) throw { name: "OrderNotFound" };
       if (req.user.id !== order.userId) throw { name: "Forbidden" };
