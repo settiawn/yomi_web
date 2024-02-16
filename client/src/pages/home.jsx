@@ -100,7 +100,7 @@ export function Home() {
         <div className="grid gap-4 grid-cols-5 grid-rows-2 p-8">
           {data.map((x) => {
             let img = x.relationships.find((z) => z.type === "cover_art");
-            return <Card id={x.id} name={x.attributes.title.en} cover={img} />;
+            return <Card key={x.id} id={x.id} name={x.attributes.title.en} cover={img} />;
           })}
         </div>
       </div>
