@@ -10,7 +10,7 @@ export function Home() {
   const upgrade = async () => {
     const { data } = await axios({
       method: "get",
-      url: "http://localhost:3000/payment/midtrans/initiate",
+      url: import.meta.env.VITE_BASE_URL + "payment/midtrans/initiate",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },

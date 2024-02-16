@@ -20,7 +20,7 @@ export function Login() {
       event.preventDefault();
       const response = await axios({
         method: "post",
-        url: "http://localhost:3000/login",
+        url: import.meta.env.VITE_BASE_URL + "login",
         data: input,
       });
       localStorage.setItem("access_token", response.data.access_token);
@@ -39,7 +39,7 @@ export function Login() {
     try {
       const { data } = await axios({
         method: "post",
-        url: "http://localhost:3000/google-login",
+        url: import.meta.env.VITE_BASE_URL + "google-login",
         headers: {
           google_token: response.credential,
         },
@@ -53,8 +53,7 @@ export function Login() {
 
   useEffect(() => {
     google.accounts.id.initialize({
-      client_id:
-        "240498324458-9h0p6nfv22ih6idqallgf4ih2sl38ofe.apps.googleusercontent.com", //TODO ini masukin env
+      client_id: import.meta.env.VITE_GOOGLE_ID,
       callback: handleCredentialResponse,
     });
     google.accounts.id.renderButton(

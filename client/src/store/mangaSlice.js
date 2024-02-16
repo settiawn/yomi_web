@@ -25,13 +25,14 @@ export const { fetchDataManga } = mangaSlice.actions;
 export function deleteList(id, profileId) {
   return async function deleteHandler(dispatch) {
     try {
-      await axios({
+      const response = await axios({
         method: "delete",
-        url: "http://localhost:3000/mylist/" + id,
+        url: import.meta.env.VITE_BASE_URL + "mylist/" + id,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
       });
+      Swal.fire("Success!", response.data.message, "success");
       dispatch(fetchUserProfile(profileId));
     } catch (error) {
       console.log(error);
@@ -44,7 +45,7 @@ export function addToList(id) {
     try {
       const { data } = await axios({
         method: "post",
-        url: "http://localhost:3000/index/" + id,
+        url: import.meta.env.VITE_BASE_URL + "index/" + id,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -65,9 +66,11 @@ export function addToList(id) {
   };
 }
 
+//REQ KE mangadex
 export function fetchAll(title) {
   return async function fetchFromMangadex(dispatch) {
     try {
+      console.log("Hello Home");
       dispatch(fetchDataManga([]));
       let params = {};
       if (title) params.title = title;

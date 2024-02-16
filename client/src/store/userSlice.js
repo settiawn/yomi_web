@@ -32,7 +32,7 @@ export function fetchUserInfo() {
     try {
       const { data } = await axios({
         method: "get",
-        url: "http://localhost:3000/verify/",
+        url: import.meta.env.VITE_BASE_URL + "verify/",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
           token: localStorage.getItem("access_token"),
@@ -53,7 +53,7 @@ export function fetchUserProfile(id){
       
       const { data } = await axios({
         method: "get",
-        url: "http://localhost:3000/profile/" + id,
+        url: import.meta.env.VITE_BASE_URL + "profile/" + id,
       });
       dispatch(fetchUserData(data))
       dispatch(fetchUserList(data.Lists))

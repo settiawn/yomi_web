@@ -19,7 +19,7 @@ export function Register() {
       event.preventDefault();
       await axios({
         method: "post",
-        url: "http://localhost:3000/register",
+        url: import.meta.env.VITE_BASE_URL + "register",
         data: input,
       });
       navigate("/login");
@@ -32,6 +32,7 @@ export function Register() {
       });
     }
   }
+  
   return (
     <div className="min-h-screen bg-dark">
       <div className="flex flex-col text-center">
@@ -58,7 +59,7 @@ export function Register() {
           className="ml-auto mr-auto bg-blue-500 text-white font-bold px-4 py-2 rounded-lg m-5"
           onClick={register}
         >
-          Login
+          Register
         </button>
         <p className="text-white m-3 pt-9">Already have an account ?</p>
         <Link to="/login" className="font-bold text-sky-500">
