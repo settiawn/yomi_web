@@ -23,13 +23,16 @@ export function Login() {
         url: import.meta.env.VITE_BASE_URL + "login",
         data: input,
       });
+      
       localStorage.setItem("access_token", response.data.access_token);
       navigate("/");
     } catch (error) {
+      console.log(error);
+      let txt = error.response.data.message
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: error.response.data.message,
+        text: txt,
       });
     }
   }
