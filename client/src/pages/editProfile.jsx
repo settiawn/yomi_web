@@ -21,7 +21,7 @@ export function EditProfile() {
     try {
       const { data } = await axios({
         method: "get",
-        url: "http://localhost:3000/profile/" + id,
+        url: import.meta.env.VITE_BASE_URL + "profile/" + id,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -37,7 +37,7 @@ export function EditProfile() {
     try {
       await axios({
         method: "put",
-        url: "http://localhost:3000/profile/" + id,
+        url: import.meta.env.VITE_BASE_URL + "profile/" + id,
         data: input,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),

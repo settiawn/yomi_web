@@ -26,7 +26,7 @@ export function EditList() {
     try {
       await axios({
         method: "put",
-        url: "http://localhost:3000/mylist/" + id,
+        url: import.meta.env.VITE_BASE_URL + "mylist/" + id,
         data: input,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -47,7 +47,7 @@ export function EditList() {
     try {
       const { data } = await axios({
         method: "get",
-        url: "http://localhost:3000/mylist/" + id,
+        url: import.meta.env.VITE_BASE_URL + "mylist/" + id,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
